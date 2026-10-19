@@ -1,0 +1,51 @@
+<style>
+#botbar{max-width:1500px;margin:12px auto 0;padding:0 22px}#botbar .card{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+#botbar textarea,.actbox textarea,.actbox input{font:inherit;font-size:13px;width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+#botbar textarea{flex:1;min-width:260px;height:44px}.actbox{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:10px 0;background:#fafbff}
+.actbox .row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}.btn.danger{color:var(--bad)}
+.hist td{font-size:12px}.s-pending{background:var(--warnbg);color:var(--warn)}.s-applied{background:var(--okbg);color:var(--ok)}.s-rejected{background:var(--badbg);color:var(--bad)}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#141a26;color:#fff;padding:8px 14px;border-radius:8px;display:none;z-index:20}
+</style>
+<div id="toast"></div>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+var LBL={approve_draft:'Approve draft',skip:'Skip/remove',edit_draft:'Edit draft',research_more:'Research more',mark_accepted:'Mark accepted',mark_replied:'Mark replied',message_to_bot:'Message to bot'};
+var A=[];
+function toast(t){var e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(function(){e.style.display='none'},2500)}
+function api(m,u,b){return fetch(u,{method:m,credentials:'same-origin',headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
+function send(contact,action,payload){return api('POST','/api/actions',{contact:contact,action:action,payload:payload||{}}).then(function(){toast('Saved: '+LBL[action]+(contact?' · '+contact:''));return load()}).catch(function(e){alert('Could not save ('+e.message+')')})}
+function rows(L){if(!L.length)return '<div class="mute">No actions yet.</div>';return '<div class="tw"><table class="hist"><thead><tr><th>#</th><th>When (PT)</th><th>Contact</th><th>Action</th><th>Details</th><th>Status</th><th>Bot response</th></tr></thead><tbody>'+L.map(function(a){var p=a.payload||{};var d=p.note||p.text||'';return '<tr><td>'+a.id+'</td><td>'+esc(new Date(a.ts).toLocaleString('en-CA',{timeZone:'America/Vancouver',dateStyle:'short',timeStyle:'short'}))+'</td><td>'+esc(a.contact||'—')+'</td><td>'+esc(LBL[a.action]||a.action)+'</td><td style="white-space:pre-wrap;max-width:360px">'+esc(d)+'</td><td><span class="pill s-'+a.status+'">'+a.status+'</span></td><td style="white-space:pre-wrap;max-width:360px">'+esc(a.bot_response||'')+'</td></tr>'}).join('')+'</tbody></table></div>'}
+function load(){return api('GET','/api/actions').then(function(L){A=L;$('#hist').innerHTML=rows(L);var n=L.filter(function(a){return a.status==='pending'}).length;$('#pendn').textContent=n?n+' pending':'';decorate()})}
+// top bar + history section
+var main=document.querySelector('main');var bar=document.createElement('div');bar.id='botbar';
+bar.innerHTML='<div class="card"><b style="flex:0 0 auto;padding-top:10px">Message to bot</b><textarea id="botmsg" placeholder="Anything you want me to do or know…"></textarea><button class="btn pri" id="botsend" style="margin-top:6px">Send</button></div>';
+main.parentNode.insertBefore(bar,main);
+var sec=document.createElement('section');sec.id='s-actions';sec.className='card';sec.innerHTML='<h2>Your actions &amp; what the bot did <span class="pill s-pending" id="pendn"></span></h2><p class="mute" style="margin-top:-6px">Pending = saved, not yet picked up. Applied/rejected show the bot\'s response.</p><div id="hist"></div>';
+main.appendChild(sec);var nav=$('#nav');var na=document.createElement('a');na.textContent='Actions';na.onclick=function(){sec.scrollIntoView({behavior:'smooth'})};nav.appendChild(na);
+$('#botsend').onclick=function(){var t=$('#botmsg').value.trim();if(!t)return;send(null,'message_to_bot',{note:t}).then(function(){$('#botmsg').value=''})};
+// person panel actions
+function contactOf(name){for(var i=0;i<D.contacts.length;i++)if(D.contacts[i].person===name)return D.contacts[i]}
+function nextDraft(c){var t=(c.timeline||[]).filter(function(t){return !t.done&&t.text});return t[0]}
+function decorate(){var pc=$('#pc');var h=pc.querySelector('h2');if(!h)return;var name=h.textContent;var box=pc.querySelector('.actbox');
+ if(!box){var c=contactOf(name);var d=c&&nextDraft(c);box=document.createElement('div');box.className='actbox';
+  box.innerHTML='<b>Actions for '+esc(name)+'</b>'+(d?'<div class="mute" style="font-size:12px">Next draft: Day '+d.day+' · '+esc(d.channel)+' — '+esc(d.label)+'</div>':'<div class="mute" style="font-size:12px">No pending draft text on file.</div>')+
+  '<div class="row"><button class="btn pri" data-a="approve_draft">Approve draft</button><button class="btn danger" data-a="skip">Skip/remove</button><button class="btn" data-a="mark_accepted">Mark accepted</button></div>'+
+  '<div class="row" style="display:block"><textarea data-f="edit" rows="5" placeholder="Edited draft text">'+esc(d?d.text:'')+'</textarea><button class="btn" data-a="edit_draft">Save edited draft</button></div>'+
+  '<div class="row" style="display:block"><input data-f="research" placeholder="What should I research?"><button class="btn" data-a="research_more" style="margin-top:4px">Research more</button></div>'+
+  '<div class="row" style="display:block"><input data-f="reply" placeholder="What did they say? (note)"><button class="btn" data-a="mark_replied" style="margin-top:4px">Mark replied</button></div><div class="ph"></div>';
+  var g=function(f){return box.querySelector('[data-f="'+f+'"]').value.trim()};
+  box.querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){var a=b.dataset.a,p={};
+   if(d&&(a==='approve_draft'||a==='edit_draft'))p={day:d.day,channel:d.channel,label:d.label};
+   if(a==='edit_draft'){p.text=g('edit');if(!p.text)return alert('Draft text is empty')}
+   if(a==='research_more'){p.note=g('research');if(!p.note)return alert('Add a note')}
+   if(a==='mark_replied'){p.note=g('reply')}
+   if(a==='skip'&&!confirm('Skip/remove '+name+'?'))return;
+   send(name,a,p)}});
+  var tl=pc.querySelector('h3');pc.insertBefore(box,tl)}
+ var mine=A.filter(function(a){return a.contact===name});box.querySelector('.ph').innerHTML='<h3>History</h3>'+rows(mine)}
+new MutationObserver(function(){decorate()}).observe($('#pc'),{childList:true});
+load();setInterval(load,60000);
+})();
+</script>

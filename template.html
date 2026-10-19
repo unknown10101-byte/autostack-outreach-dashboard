@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoStack outreach</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--ink:#141a26;--mute:#6b7383;--line:#e3e6ec;--acc:#3b5bfd;--warn:#b54708;--warnbg:#fff4e5;--bad:#b42318;--badbg:#fdecec;--ok:#067647;--okbg:#e9f8ef}
+*{box-sizing:border-box}html,body{margin:0}body{font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header h1{font-size:17px;margin:0}nav{display:flex;gap:4px;flex-wrap:wrap}nav a{padding:6px 11px;border-radius:8px;color:var(--mute);font-weight:500;cursor:pointer;text-decoration:none}nav a.on,nav a:hover{background:#eef1ff;color:var(--acc)}
+.mute{color:var(--mute)}main>section{min-width:0}main{max-width:1500px;margin:0 auto;padding:18px 22px;display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}h2{font-size:15px;margin:0 0 12px}h3{font-size:13px;margin:14px 0 6px}
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.st{border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;background:#fff}.st:hover{border-color:var(--acc)}.st b{font-size:24px;display:block}.st span{font-size:12px;color:var(--mute)}
+.st.on{outline:2px solid var(--acc)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+ul.l{list-style:none;margin:0;padding:0}ul.l li{padding:6px 0;border-bottom:1px solid var(--line)}ul.l li:last-child{border:0}
+.pill{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;background:#eef1f6;color:#344054;margin:1px 2px 1px 0;white-space:nowrap}
+.p-warn{background:var(--warnbg);color:var(--warn)}.p-bad{background:var(--badbg);color:var(--bad)}.p-ok{background:var(--okbg);color:var(--ok)}.p-acc{background:#eef1ff;color:var(--acc)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.filters select,.filters input{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+.filters input{min-width:240px;flex:1}.btn{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer}.btn.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(230px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px}
+.col{background:#eef0f5;border-radius:12px;padding:8px;min-height:120px;max-height:75vh;overflow:auto}.col h4{margin:2px 4px 8px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);display:flex;justify-content:space-between}
+.kc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:7px;cursor:pointer}.kc:hover{border-color:var(--acc)}.kc b{display:block;font-size:13px}.kc small{color:var(--mute);display:block}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{position:sticky;top:0;background:#fafbfc;cursor:pointer;white-space:nowrap;user-select:none}tbody tr{cursor:pointer}tbody tr:hover{background:#f7f8ff}
+.tw{max-height:72vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+#ov{position:fixed;inset:0;background:rgba(15,20,30,.35);display:none;z-index:9}#ov.on{display:block}
+#panel{position:fixed;top:0;right:0;height:100%;width:min(640px,100%);background:#fff;z-index:10;transform:translateX(105%);-webkit-transform:translateX(105%);transition:transform .2s;overflow:auto;box-shadow:-8px 0 30px rgba(0,0,0,.12);padding:20px 22px}
+#panel.on{transform:none;-webkit-transform:none}#panel h2{font-size:19px;margin:0 30px 2px 0}.x{position:absolute;top:14px;right:16px;font-size:22px;border:0;background:none;cursor:pointer;color:var(--mute)}
+dl{display:grid;grid-template-columns:130px 1fr;gap:4px 10px;margin:8px 0}dt{color:var(--mute);font-size:12.5px}dd{margin:0;word-break:break-word}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:14px}.tli{position:relative;margin-bottom:12px}.tli:before{content:"";position:absolute;left:-21px;top:4px;width:10px;height:10px;border-radius:50%;background:#cfd5e0}.tli.done:before{background:var(--ok)}.tli.next:before{background:var(--acc)}
+.draft{white-space:pre-wrap;background:#f7f8fb;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;margin-top:4px}
+.need{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.need:last-child{border:0}.need .k{flex:0 0 110px}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}.hide{display:none!important}
+</style></head><body>
+<header><h1>AutoStack outreach</h1><nav id="nav"><a data-s="overview" class="on">Overview</a><a data-s="needs">Needs Riya</a><a data-s="people">People</a><a data-s="schedule">Automation</a></nav><span class="mute" id="upd" style="margin-left:auto;font-size:12px"></span></header>
+<main>
+<section id="s-overview">
+ <div class="card"><h2>Pipeline</h2><div class="stages" id="stages"></div></div><div style="height:16px"></div>
+ <div class="grid2"><div class="card"><h2>Due today <span class="mute" id="tdate"></span></h2><ul class="l" id="dtoday"></ul></div>
+ <div class="card"><h2>Due later this week <span class="mute" id="wdate"></span></h2><ul class="l" id="dweek"></ul></div></div>
+</section>
+<section id="s-needs" class="card"><h2>Needs Riya</h2><div id="needs"></div>
+ <h3>Warm paths (from daily sheet)</h3><ul class="l" id="warm"></ul><h3>Not queued today (from daily sheet)</h3><ul class="l" id="notq"></ul></section>
+<section id="s-people" class="card">
+ <div class="filters" id="filters"><input type="search" id="q" placeholder="Search name, company, title, hook, notes…">
+ <span id="sels"></span><button class="btn" id="clr">Clear</button><span style="margin-left:auto"></span><button class="btn on" data-v="kanban">Pipeline</button><button class="btn" data-v="table">Table</button></div>
+ <div class="mute" id="shown" style="margin:8px 0"></div>
+ <div id="v-kanban" class="kanban"></div>
+ <div id="v-table" class="tw hide"><table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table></div>
+</section>
+<section id="s-schedule" class="card"><h2>Automation schedule (America/Vancouver, PT)</h2><div id="sched"></div><p class="mute" id="foot"></p></section>
+</main>
+<div id="ov"></div><aside id="panel"><button class="x" id="px" aria-label="Close">×</button><div id="pc"></div></aside>
+<script>
+var D=/*DATA*/null;
+(function(){
+var $=function(s){return document.querySelector(s)};var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function link(u,t){return u?'<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(t||u)+'</a>':''}
+function val(v){return v?esc(v):'<span class="mute">unknown</span>'}
+var C=D.contacts,SL={};D.stages.forEach(function(s){SL[s[0]]=s[1]});var byN={};C.forEach(function(c,i){c.i=i;byN[c.person]=c});
+$('#upd').textContent='Updated '+D.updated+(D.sheet?' · sheet daily/'+D.sheet+'.md':'');
+// nav
+$$('#nav a').forEach(function(a){a.onclick=function(){$$('#nav a').forEach(function(x){x.classList.remove('on')});a.classList.add('on');var el=document.getElementById('s-'+a.dataset.s);el.scrollIntoView({behavior:'smooth',block:'start'})}});
+// stages
+var stageSel='';
+function renderStages(){$('#stages').innerHTML=D.stages.map(function(s){return '<div class="st'+(stageSel===s[0]?' on':'')+'" data-k="'+s[0]+'"><b>'+(D.counts[s[0]]||0)+'</b><span>'+esc(s[1])+'</span></div>'}).join('')+'<div class="st" data-k=""><b>'+D.total+'</b><span>Total contacts</span></div>';
+ $$('.st').forEach(function(el){el.onclick=function(){stageSel=el.dataset.k===stageSel?'':el.dataset.k;var s=$('#f-stage');if(s)s.value=stageSel;renderStages();render();document.getElementById('s-people').scrollIntoView({behavior:'smooth'})}})}
+function pli(it){var c=byN[it.person];return '<li><a href="#" data-p="'+c.i+'">'+esc(it.person)+'</a> <span class="mute">'+esc(it.company)+'</span><br><span class="pill p-acc">'+esc(it.due)+'</span> '+esc(it.label)+(it.cond?' <span class="pill p-warn">'+esc(it.cond)+'</span>':'')+'</li>'}
+$('#tdate').textContent='('+D.today+')';$('#wdate').textContent='(through '+D.week_end+')';
+$('#dtoday').innerHTML=D.due_today.length?D.due_today.map(pli).join(''):'<li class="mute">Nothing due today.</li>';
+$('#dweek').innerHTML=D.due_week.length?D.due_week.sort(function(a,b){return a.due<b.due?-1:1}).map(pli).join(''):'<li class="mute">Nothing else due this week.</li>';
+// needs
+$('#needs').innerHTML=D.needs.map(function(n){var cls=n.kind==='Open decision'?'p-bad':(n.kind==='Flag'?'p-warn':'');return '<div class="need"><div class="k"><span class="pill '+cls+'">'+esc(n.kind)+'</span></div><div><b>'+(n.person&&byN[n.person]?'<a href="#" data-p="'+byN[n.person].i+'">'+esc(n.title)+'</a>':esc(n.title))+'</b><div class="mute">'+esc(n.detail)+'</div></div></div>'}).join('');
+$('#warm').innerHTML=D.warm_paths.map(function(w){return '<li>'+esc(w.replace(/\*\*/g,''))+'</li>'}).join('')||'<li class="mute">None.</li>';
+$('#notq').innerHTML=D.not_queued.map(function(w){return '<li>'+esc(w.replace(/\*\*/g,''))+'</li>'}).join('')||'<li class="mute">None.</li>';
+// schedule
+$('#sched').innerHTML='<ul class="l">'+D.schedule.map(function(s){return '<li><b>'+esc(s.name)+'</b> · <span class="pill p-acc">'+esc(s.when)+'</span><div class="mute">'+esc(s.what)+'</div></li>'}).join('')+'</ul>';
+$('#foot').textContent='Generated by build_dashboard.py from tracker.csv, autostack-outreach-plan.md, the latest daily sheet and research/*.md. Read-only; rerun daily.'+(D.uncategorized.length?' Could not categorize: '+D.uncategorized.join('; '):'');
+// filters
+var F=[['cats','Category',function(c){return c.cats}],['segment','Segment'],['priority','Priority'],['sender','Sender'],['template','Template',function(c){return [c.template||'none']}],['status','Status'],['stage','Stage',function(c){return [c.stage]}],['company','Company'],['flags','Flag',function(c){return c.flags.length?c.flags:['none']}]];
+function vals(c,f){return f[2]?f[2](c):[c[f[0]]||'unknown']}
+$('#sels').innerHTML=F.map(function(f){var s={};C.forEach(function(c){vals(c,f).forEach(function(v){s[v]=(s[v]||0)+1})});
+ var ks=Object.keys(s).sort();return '<select id="f-'+f[0]+'"><option value="">'+f[1]+': all</option>'+ks.map(function(k){return '<option value="'+esc(k)+'">'+esc(f[0]==='stage'?SL[k]:k)+' ('+s[k]+')</option>'}).join('')+'</select> '}).join('');
+F.forEach(function(f){$('#f-'+f[0]).onchange=function(){if(f[0]==='stage'){stageSel=this.value;renderStages()}render()}});
+$('#q').oninput=render;$('#clr').onclick=function(){F.forEach(function(f){$('#f-'+f[0]).value=''});$('#q').value='';stageSel='';renderStages();render()};
+var view='kanban';$$('#filters .btn[data-v]').forEach(function(b){b.onclick=function(){view=b.dataset.v;$$('#filters .btn[data-v]').forEach(function(x){x.classList.toggle('on',x===b)});$('#v-kanban').classList.toggle('hide',view!=='kanban');$('#v-table').classList.toggle('hide',view!=='table')}});
+function filtered(){var q=$('#q').value.toLowerCase();return C.filter(function(c){for(var i=0;i<F.length;i++){var v=$('#f-'+F[i][0]).value;if(v&&vals(c,F[i]).indexOf(v)<0)return false}
+ if(!q)return true;return [c.person,c.company,c.title,c.hook,c.notes,c.segment,c.sender,c.mutual,c.send_log,c.cats.join(' '),c.flags.join(' ')].join(' ').toLowerCase().indexOf(q)>=0})}
+function tags(c){return c.cats.map(function(t){return '<span class="pill">'+esc(t)+'</span>'}).join('')+c.flags.map(function(t){return '<span class="pill p-warn">'+esc(t)+'</span>'}).join('')}
+var cols=[['person','Name'],['title','Title'],['company','Company'],['cats','Category'],['segment','Segment'],['priority','Pri'],['sender','Sender'],['template','Tpl'],['stage','Stage'],['step','Step'],['sequence_start','Invite sent'],['accepted_on','Accepted'],['next_due','Next due'],['next_action','Next action']];
+var sk='person',sd=1;$('#th').innerHTML=cols.map(function(c){return '<th data-k="'+c[0]+'">'+c[1]+'</th>'}).join('');
+$$('#th th').forEach(function(th){th.onclick=function(){var k=th.dataset.k;sd=sk===k?-sd:1;sk=k;render()}});
+var SO={};D.stages.forEach(function(s,i){SO[s[0]]=i});
+function render(){var R=filtered();$('#shown').textContent=R.length+' of '+C.length+' people shown';
+ $('#v-kanban').innerHTML=D.stages.map(function(s){var L=R.filter(function(c){return c.stage===s[0]});return '<div class="col"><h4><span>'+esc(s[1])+'</span><span>'+L.length+'</span></h4>'+L.map(function(c){return '<div class="kc" data-p="'+c.i+'"><b>'+esc(c.person)+'</b><small>'+esc(c.title)+'</small><small>'+esc(c.company)+'</small><div>'+'<span class="pill p-acc">'+esc(c.sender)+'</span>'+(c.priority&&c.priority!=='unknown'?'<span class="pill">P'+esc(c.priority)+'</span>':'')+tags(c)+'</div>'+(c.next_due?'<small>Next: '+esc(c.next_due)+'</small>':'')+'</div>'}).join('')+'</div>'}).join('');
+ R.sort(function(a,b){var x=a[sk],y=b[sk];if(sk==='stage'){x=SO[x];y=SO[y]}if(Array.isArray(x)){x=x.join(',');y=y.join(',')}if(typeof x==='number')return (x-y)*sd;return String(x||'').localeCompare(String(y||''))*sd});
+ $('#tb').innerHTML=R.map(function(c){return '<tr data-p="'+c.i+'"><td><b>'+esc(c.person)+'</b></td><td>'+esc(c.title)+'</td><td>'+esc(c.company)+'</td><td>'+tags(c)+'</td><td>'+esc(c.segment)+'</td><td>'+esc(c.priority)+'</td><td>'+esc(c.sender)+'</td><td>'+esc(c.template)+'</td><td>'+esc(SL[c.stage])+'</td><td>'+c.step+'</td><td>'+esc(c.sequence_start)+'</td><td>'+esc(c.accepted_on)+'</td><td>'+esc(c.next_due)+'</td><td>'+esc(c.next_action)+'</td></tr>'}).join('')}
+// detail
+function open(i){var c=C[i],r=c.research,h='';
+ h+='<h2>'+esc(c.person)+'</h2><div class="mute">'+val(c.title)+' · '+val(c.company)+'</div><div style="margin-top:6px">'+'<span class="pill p-acc">'+esc(SL[c.stage])+'</span>'+tags(c)+(c.hold?'<span class="pill p-bad">'+esc(c.hold)+'</span>':'')+'</div>';
+ h+='<dl><dt>LinkedIn</dt><dd>'+(c.linkedin?link(c.linkedin):'<span class="mute">unknown</span>')+'</dd><dt>Email</dt><dd>'+(c.email?esc(c.email)+(c.email_source?' <span class="mute">('+esc(c.email_source)+')</span>':''):'<span class="mute">none recorded</span>')+'</dd>'+
+ '<dt>Segment</dt><dd>'+val(c.segment)+'</dd><dt>Priority</dt><dd>'+val(c.priority)+'</dd><dt>Sender</dt><dd>'+val(c.sender)+'</dd><dt>Template</dt><dd>'+val(c.template)+'</dd><dt>Connection</dt><dd>'+val(c.degree)+'</dd>'+
+ '<dt>Invite sent</dt><dd>'+(c.sequence_start&&c.step>=1?esc(c.sequence_start):'<span class="mute">not sent</span>')+'</dd><dt>Accepted</dt><dd>'+(c.accepted_on?esc(c.accepted_on):'<span class="mute">not recorded</span>')+'</dd>'+
+ '<dt>Current step</dt><dd>'+c.step+' <span class="mute">(status: '+esc(c.status)+')</span></dd><dt>Next due</dt><dd>'+val(c.next_due)+'</dd>'+(c.sheet_item?'<dt>Daily sheet</dt><dd>#'+c.sheet_item+(c.approved?' ✓ approved':' (not ticked)')+'</dd>':'')+'</dl>';
+ h+='<h3>Sequence timeline</h3>';if(!c.sequence_start)h+='<div class="mute" style="margin-bottom:6px">Sequence not started; due dates appear once sequence_start is set.</div>';
+ var nx=false;h+='<div class="tl">'+c.timeline.map(function(t){var cls=t.done?'done':'';if(!t.done&&!nx&&t.skip.indexOf('skipped')!==0){cls='next';nx=true}
+  return '<div class="tli '+cls+'"><b>Day '+t.day+' · '+esc(t.channel)+'</b> — '+esc(t.label)+' <span class="pill '+(t.done?'p-ok':'')+'">'+(t.done?'done':(t.due||'date unknown'))+'</span>'+(t.skip?' <span class="pill p-warn">'+esc(t.skip)+'</span>':'')+(t.note?'<div class="mute" style="font-size:12px">'+esc(t.note)+'</div>':'')+(t.text?'<div class="draft">'+esc(t.text)+'</div><div class="mute" style="font-size:11px">Source: '+esc(t.src)+'</div>':'')+'</div>'}).join('')+'</div>';
+ h+='<h3>Research done</h3><dl><dt>Hook</dt><dd>'+val(c.hook)+'</dd><dt>Hook source</dt><dd>'+(c.hook_url?link(c.hook_url):'<span class="mute">none</span>')+(c.source_url&&c.source_url!==c.hook_url?'<br>'+link(c.source_url):'')+(c.sheet_source&&c.sheet_source.indexOf(c.hook_url)<0?'<br><span class="mute">'+esc(c.sheet_source)+'</span>':'')+'</dd>';
+ if(r)h+='<dt>LinkedIn research</dt><dd>'+(r.profile?link(r.profile):esc(r.profile_raw))+'<br>'+esc(r.title)+(r.degree&&r.degree!=='-'?'<br>Degree: '+esc(r.degree):'')+(r.school&&r.school!=='-'?'<br>School: '+esc(r.school):'')+(r.latest&&r.latest!=='-'?'<br>Latest post: '+esc(r.latest)+(r.summary&&r.summary!=='-'?' — '+esc(r.summary):'')+(r.post_url?' '+link(r.post_url,'(post)'):''):'')+'</dd>';
+ if(c.sheet_email)h+='<dt>Email check</dt><dd>'+esc(c.sheet_email)+'</dd>';h+='</dl>';
+ h+='<h3>Research still to do</h3>'+(c.todo.length?'<ul>'+c.todo.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>':'<div class="mute">Nothing flagged.</div>');
+ if(c.sheet_flags)h+='<h3>Daily-sheet flags</h3><div>'+esc(c.sheet_flags)+'</div>';
+ if(c.not_queued.length)h+='<h3>Why not queued</h3><div>'+c.not_queued.map(esc).join('<br>')+'</div>';
+ h+='<h3>Notes</h3><div class="draft">'+(c.notes?esc(c.notes):'—')+'</div><h3>Send log</h3><div class="draft">'+(c.send_log?esc(c.send_log):'Nothing sent yet.')+'</div>';
+ $('#pc').innerHTML=h;$('#panel').classList.add('on');$('#ov').classList.add('on');$('#panel').scrollTop=0}
+function close(){$('#panel').classList.remove('on');$('#ov').classList.remove('on')}
+document.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('[data-p]'):null;if(t&&!t.closest('#panel')){e.preventDefault();open(+t.getAttribute('data-p'))}});
+$('#ov').onclick=close;$('#px').onclick=close;document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+renderStages();render();
+})();
+</script></body></html>
